@@ -70,9 +70,9 @@ RUN wget $BAZEL_URL &&\
     ./$BAZEL_INSTALLER &&\
     rm /src/*
 # Set pip3 mirrors
-pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple 
+RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple 
 # Install essential Python packages
-RUN pip3 --no-cache-dir -default-timeout=1000 install \
+RUN pip3 --no-cache-dir --default-timeout=1000 install \
          numpy \
          matplotlib \
          scipy \
