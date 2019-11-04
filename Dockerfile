@@ -69,9 +69,10 @@ RUN wget $BAZEL_URL &&\
     chmod +x $BAZEL_INSTALLER &&\
     ./$BAZEL_INSTALLER &&\
     rm /src/*
-
+# Set pip3 mirrors
+pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple 
 # Install essential Python packages
-RUN pip3 --no-cache-dir install \
+RUN pip3 --no-cache-dir -default-timeout=1000 install \
          numpy \
          matplotlib \
          scipy \
@@ -79,6 +80,6 @@ RUN pip3 --no-cache-dir install \
          jupyter \
          jupyterlab \
          scikit-learn \
-         seaborn
+         seaborn \
          torch \
          torchvision
