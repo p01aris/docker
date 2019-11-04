@@ -39,7 +39,7 @@ RUN apt-get update &&\
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install anaconda for python 3.6
-RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.07-Linux-x86_64.sh -O ~/anaconda.sh && \
+RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh -O ~/anaconda.sh && \
     /bin/bash ~/anaconda.sh -b -p /opt/conda && \
     rm ~/anaconda.sh && \
     echo "export PATH=/opt/conda/bin:$PATH" >> ~/.bashrc
