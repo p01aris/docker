@@ -2,7 +2,7 @@
 ARG UBUNTU_VERSION=18.04
 
 ARG ARCH=
-ARG CUDA=10.0
+ARG CUDA=10.1
 ARG CUDNN=cudnn7
 FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}-${CUDNN}-devel-ubuntu${UBUNTU_VERSION} as base
 
@@ -16,6 +16,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update &&\
     apt-get install -y software-properties-common \
                        build-essential \
+                       cmake \
                        git \
                        wget \
                        vim \
@@ -39,10 +40,10 @@ RUN apt-get update &&\
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install anaconda for python 3.6
-RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.07-Linux-x86_64.sh -O ~/anaconda.sh && \
-    /bin/bash ~/anaconda.sh -b -p /opt/conda && \
-    rm ~/anaconda.sh && \
-    echo "export PATH=/opt/conda/bin:$PATH" >> ~/.bashrc
+#RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh -O ~/anaconda.sh && \
+#    /bin/bash ~/anaconda.sh -b -p /opt/conda && \
+#    rm ~/anaconda.sh && \
+#    echo "export PATH=/opt/conda/bin:$PATH" >> ~/.bashrc
 
 
 # Set timezone
@@ -69,15 +70,17 @@ RUN wget $BAZEL_URL &&\
     chmod +x $BAZEL_INSTALLER &&\
     ./$BAZEL_INSTALLER &&\
     rm /src/*
-
+# Set pip3 mirrors
+RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple 
 # Install essential Python packages
-RUN pip3 --no-cache-dir install \
+RUN pip3 --no-cache-dir --default-timeout=1000 install \
          numpy \
          matplotlib \
          scipy \
          pandas \
          jupyter \
+         jupyterlab \
          scikit-learn \
-         seaborn
-          
-# Get TensorFlow
+         seaborn \
+         torch \
+         torchvision

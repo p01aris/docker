@@ -1,2 +1,0 @@
-#!/bin/bash
-docker run --runtime=nvidi-v /home/zl:/home --privileged=true bash
