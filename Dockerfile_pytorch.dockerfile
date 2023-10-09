@@ -1,9 +1,9 @@
 # Build Tensorflow with support cuDNN v5
-ARG UBUNTU_VERSION=18.04
+ARG UBUNTU_VERSION=22.04
 
 ARG ARCH=
-ARG CUDA=10.1
-ARG CUDNN=cudnn7
+ARG CUDA=12.1.0
+ARG CUDNN=cudnn8
 FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}-${CUDNN}-devel-ubuntu${UBUNTU_VERSION} as base
 
 #FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
@@ -27,7 +27,7 @@ RUN apt-get update &&\
                        pkg-config \
                        libblas-dev \
                        liblapack-dev \
-                       python-dev \
+                       #python-dev \
                        python3-dev \
                        python3-pip \
                        python3-tk \
@@ -73,14 +73,8 @@ RUN wget $BAZEL_URL &&\
 # Set pip3 mirrors
 RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple 
 # Install essential Python packages
-RUN pip3 --no-cache-dir --default-timeout=1000 install \
-         numpy \
-         matplotlib \
-         scipy \
-         pandas \
-         jupyter \
-         jupyterlab \
-         scikit-learn \
-         seaborn \
-         torch \
-         torchvision
+COPY ./requirements.txt /src/requirements.txt
+RUN pip3 --no-cache-dir --default-timeout=1000 install -r /src/requirements.txt
+RUN rm /src/requirements.txt
+# RUN export SHELL=/usr/bin/bash
+WORKDIR /home
