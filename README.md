@@ -1,4 +1,4 @@
-# docker
+# Use age
 To build image just use following commnd
 ```
 docker compose build
