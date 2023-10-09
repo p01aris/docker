@@ -1,0 +1,14 @@
+version: '2.3'
+services:
+  cudaenv:
+    build:
+      context: .
+      dockerfile: Dockerfile_pytorch.dockerfile
+      # dockerfile: Dockerfile_tensor.dockerfile
+    runtime: nvidia
+    ports:
+      - "8888:8888"
+    volumes:
+      - "~/:/home"
+    privileged: true
+    command: jupyter lab --ip=0.0.0.0 --allow-root
