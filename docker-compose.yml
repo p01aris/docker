@@ -6,8 +6,7 @@ services:
       dockerfile: Dockerfile_pytorch.dockerfile
       # dockerfile: Dockerfile_tensor.dockerfile
     runtime: nvidia
-    ports:
-      - "8888:8888"
+    network_mode: "host"  
     volumes:
       - "~/:/home"
     privileged: true

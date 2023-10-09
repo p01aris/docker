@@ -33,6 +33,8 @@ RUN apt-get update &&\
                        python3-tk \
                        python3-wheel \
                        swig &&\
+                       libgl1-mesa-glx \
+
     ln -s /usr/bin/python3 /usr/local/bin/python &&\
     ln -s /usr/bin/pip3 /usr/local/bin/pip &&\
     pip install --upgrade pip &&\
@@ -71,7 +73,7 @@ RUN wget $BAZEL_URL &&\
     ./$BAZEL_INSTALLER &&\
     rm /src/*
 # Set pip3 mirrors
-RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple 
+RUN pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple
 # Install essential Python packages
 COPY ./requirements.txt /src/requirements.txt
 RUN pip3 --no-cache-dir --default-timeout=1000 install -r /src/requirements.txt
